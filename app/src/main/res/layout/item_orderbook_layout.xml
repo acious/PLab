@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="orderBookVO"
+            type="com.acious.plabs.model.OrderBookVO" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <TextView
+            android:id="@+id/orderbook_item_buy_qty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{orderBookVO.buyQty}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="0.1709" />
+
+        <TextView
+            android:id="@+id/orderbook_item_buy_price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@{orderBookVO.buyPrice}"
+            android:textColor="@color/teal_700"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/orderbook_item_center_divider"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="51,816.3" />
+
+        <View
+            android:id="@+id/orderbook_item_center_divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/orderbook_item_sell_price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{orderBookVO.sellPrice}"
+            android:textColor="@color/design_default_color_primary"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/orderbook_item_center_divider"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="51,816.4" />
+
+        <TextView
+            android:id="@+id/orderbook_item_sell_qty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{orderBookVO.sellQty}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3.3893" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

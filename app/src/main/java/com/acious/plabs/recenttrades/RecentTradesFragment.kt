@@ -6,9 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.acious.plabs.R
+import com.acious.plabs.databinding.FragmentRecentTradesBinding
 
 class RecentTradesFragment : Fragment() {
+    private lateinit var binding: FragmentRecentTradesBinding
 
     companion object {
         fun newInstance() = RecentTradesFragment()
@@ -19,14 +20,21 @@ class RecentTradesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_recent_trades, container, false)
+    ): View {
+        binding = FragmentRecentTradesBinding.inflate(LayoutInflater.from(context))
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RecentTradesViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this)[RecentTradesViewModel::class.java]
+
+        initRecentTradeList()
     }
 
+    private fun initRecentTradeList() {
+        val adapter = RecentTradeListAdapter()
+        binding.recentTradesList.adapter = adapter
+    }
 }
