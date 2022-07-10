@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.acious.plabs.databinding.FragmentOrderBookBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OrderBookFragment : Fragment() {
     private lateinit var binding: FragmentOrderBookBinding
 
@@ -36,5 +38,7 @@ class OrderBookFragment : Fragment() {
     private fun initOrderBookList() {
         val adapter = OrderBookListAdapter()
         binding.orderbookList.adapter = adapter
+
+        viewModel.initView()
     }
 }
