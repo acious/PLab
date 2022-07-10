@@ -1,8 +1,8 @@
 package com.acious.plabs.model
 
 data class OrderBookVO(
-    val buyQty: String?,
-    val buyPrice: String?,
-    val sellQty: String?,
-    val sellPrice: String?
+    var buyQty: String?,
+    var buyPrice: String?,
+    var sellQty: String?,
+    var sellPrice: String?
 )
