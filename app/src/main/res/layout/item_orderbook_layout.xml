@@ -7,14 +7,36 @@
 
         <variable
             name="orderBookVO"
-            type="com.acious.plabs.model.OrderBookVO" />
+            type="com.acious.plabs.model.orderbook.OrderBookVO" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="48dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp">
+
+        <com.acious.plabs.OrderBookItemBg
+            android:id="@+id/orderbook_item_buy_background"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="@color/buy_green"
+            app:bgWidth="@{orderBookVO.buyBgSize}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/orderbook_item_center_divider"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.acious.plabs.OrderBookItemBg
+            android:id="@+id/orderbook_item_sell_background"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="@color/sell_red"
+            app:bgWidth="@{orderBookVO.sellBgSize}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/orderbook_item_center_divider"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/orderbook_item_buy_qty_text"
@@ -42,7 +64,7 @@
 
         <View
             android:id="@+id/orderbook_item_center_divider"
-            android:layout_width="1dp"
+            android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"

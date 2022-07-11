@@ -1,13 +1,21 @@
-package com.acious.plabs.recenttrades
+package com.acious.plabs.recenttrade
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.acious.plabs.databinding.FragmentRecentTradesBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class RecentTradesFragment : Fragment() {
     private lateinit var binding: FragmentRecentTradesBinding
 
@@ -36,5 +44,16 @@ class RecentTradesFragment : Fragment() {
     private fun initRecentTradeList() {
         val adapter = RecentTradeListAdapter()
         binding.recentTradesList.adapter = adapter
+        binding.recentTradesList.layoutManager = LinearLayoutManager(activity)
+
+        viewModel.initView()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.recentTradeDataStateFlow.collect {
+                    adapter.submitList(it)
+                }
+            }
+        }
     }
 }

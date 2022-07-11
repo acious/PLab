@@ -7,12 +7,12 @@
 
         <variable
             name="recentTradeVO"
-            type="com.acious.plabs.model.RecentTradeVO" />
+            type="com.acious.plabs.model.recenttrade.RecentTradeVO" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="28dp"
+        android:layout_height="48dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp">
 

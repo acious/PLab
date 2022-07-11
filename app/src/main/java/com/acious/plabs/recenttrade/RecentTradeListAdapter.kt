@@ -1,14 +1,14 @@
-package com.acious.plabs.recenttrades
+package com.acious.plabs.recenttrade
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.acious.plabs.databinding.ItemRecentTradeLayoutBinding
-import com.acious.plabs.model.RecentTradeVO
+import com.acious.plabs.model.recenttrade.RecentTradeVO
 
-class RecentTradeListAdapter : RecyclerView.Adapter<RecentTradeListAdapter.RecentTradeVH>() {
-    private lateinit var items: List<RecentTradeVO>
-
+class RecentTradeListAdapter :
+    ListAdapter<RecentTradeVO, RecentTradeListAdapter.RecentTradeVH>(RecentTradeDiffUtilCallback()) {
     inner class RecentTradeVH(private val binding: ItemRecentTradeLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(recentTradeVO: RecentTradeVO) {
@@ -17,17 +17,17 @@ class RecentTradeListAdapter : RecyclerView.Adapter<RecentTradeListAdapter.Recen
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentTradeVH {
-        val binding =
-            ItemRecentTradeLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecentTradeVH(binding)
+        return RecentTradeVH(
+            ItemRecentTradeLayoutBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: RecentTradeVH, position: Int) {
-        holder.bind(items[position])
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
+        holder.bind(getItem(position))
     }
 }
 

@@ -11,12 +11,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.acious.plabs.databinding.FragmentOrderBookBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OrderBookFragment : Fragment() {
+    private var screenHalfSize: Int = 0
     private lateinit var binding: FragmentOrderBookBinding
 
     companion object {
@@ -38,6 +43,11 @@ class OrderBookFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[OrderBookViewModel::class.java]
 
+        this.screenHalfSize = 0
+        activity?.let {
+            screenHalfSize = it.window.decorView.width / 2
+        }
+
         initOrderBookList()
     }
 
@@ -45,12 +55,17 @@ class OrderBookFragment : Fragment() {
         val adapter = OrderBookListAdapter()
         binding.orderbookList.adapter = adapter
         binding.orderbookList.layoutManager = LinearLayoutManager(activity)
+        val animator: RecyclerView.ItemAnimator? = binding.orderbookList.itemAnimator
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
+            animator.changeDuration = 0
+        }
 
-        viewModel.initView()
+        viewModel.initView(screenHalfSize)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.visibleListStateFlow.collect {
+                viewModel.visibleListStateFlow.collectLatest {
                     adapter.submitList(it)
                 }
             }

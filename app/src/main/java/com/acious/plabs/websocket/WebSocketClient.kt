@@ -13,17 +13,18 @@ import okhttp3.*
 import okio.ByteString
 
 class WebSocketClient(
-    private val okHttpClient: OkHttpClient,
-    private val request: Request
+    private val okHttpClient: OkHttpClient
 ) {
     private lateinit var scope: CoroutineScope
-    private val incoming = Channel<WebSocketResponse>()
-    private val incomingFlow: Flow<WebSocketResponse> = incoming.consumeAsFlow()
+    private lateinit var incoming: Channel<WebSocketResponse>
+    private lateinit var incomingFlow: Flow<WebSocketResponse>
+    private var webSocket: WebSocket? = null
 
-    fun connectWebSocket(scope: CoroutineScope) {
+    fun connectWebSocket(scope: CoroutineScope, request: Request) {
         this.scope = scope
-        okHttpClient.newWebSocket(request, WebSocketChannelListener(incoming))
-        okHttpClient.dispatcher.executorService.shutdown()
+        incoming = Channel()
+        incomingFlow = incoming.consumeAsFlow()
+        webSocket = okHttpClient.newWebSocket(request, WebSocketChannelListener(incoming))
     }
 
     fun getIncoming(): Flow<WebSocketResponse> {
@@ -55,15 +56,16 @@ class WebSocketClient(
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            Log.d("onFailure", t.printStackTrace().toString())
+            Log.d("onFailure", t.message.toString())
             incoming.close(t)
         }
 
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-
+            Log.d("onClosing", "t.message.toString()")
         }
 
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+            Log.d("onClosed", "onClosed")
             incoming.close()
         }
     }
